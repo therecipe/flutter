@@ -1,0 +1,14 @@
+.DS_Store
+deploy/*
+vendor/*
+rcc*
+moc*
+*.qmlc
+
+build/*
+.packages
+.dart_tool
+pubspec.lock
+
+*flutter_engine.*
+FlutterEmbedder.framework
