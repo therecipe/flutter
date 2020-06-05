@@ -12,3 +12,6 @@ pubspec.lock
 
 *flutter_engine.*
 FlutterEmbedder.framework
+icudtl.dat
+
+macos/Flutter/*
