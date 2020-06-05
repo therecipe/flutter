@@ -8,7 +8,7 @@ Item {
 		Button {
 			anchors.horizontalCenter: parent.horizontalCenter
 			text: "Qml calls Dart"
-			onClicked: { dartFunction("Hello from Qml") }
+			onClicked: dartFunction("Hello from Qml")
 		}
 
 		Button {
