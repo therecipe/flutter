@@ -4,8 +4,9 @@ import (
 	"os"
 	"unsafe"
 
-	"github.com/therecipe/qt/core"
 	"github.com/therecipe/qt/flutter"
+
+	"github.com/therecipe/qt/core"
 	"github.com/therecipe/qt/qml"
 	"github.com/therecipe/qt/quick"
 	_ "github.com/therecipe/qt/quickcontrols2" //used from dart
@@ -14,18 +15,18 @@ import (
 	"github.com/therecipe/qt/interop"
 )
 
-var qmlEngine *qml.QQmlEngine
-
 func main() {
+
 	core.QCoreApplication_SetAttribute(core.Qt__AA_EnableHighDpiScaling, true)
 
 	widgets.NewQApplication(len(os.Args), os.Args)
 
+	var qmlEngine *qml.QQmlEngine
 	interopEngine := interop.PseudoQJSEngine_qjsEngine(nil)
 
-	// setup go widget
+	// setup the go widget
 
-	gw := widgets.NewQWidget(nil, 0)
+	gw := widgets.NewQGroupBox2("Go Widget", nil)
 	l := widgets.NewQVBoxLayout2(gw)
 
 	callDart := widgets.NewQPushButton2("Go calls Dart", nil)
@@ -42,7 +43,7 @@ func main() {
 
 	interopEngine.GlobalObject().SetProperty("goFunction", interopEngine.NewGoType(func(s string) { println("go: " + s) }))
 
-	// setup flutter widget
+	// setup the flutter widget
 
 	var fw *flutter.FlutterWidget
 
@@ -53,7 +54,7 @@ func main() {
 		qmlEngine.GlobalObject().SetProperty("goFunction", qmlEngine.NewGoType(func(s string) { println("go: " + s) }))
 
 		win := widgets.NewQWidget(nil, 0)
-		win.SetWindowTitle(fw.WindowTitle())
+		fw.ConnectWindowTitleChanged(func(title string) { win.SetWindowTitle(title) })
 		l := widgets.NewQHBoxLayout2(win)
 		l.AddWidget(fw, 0, 0)
 		l.AddWidget(gw, 0, 0)
